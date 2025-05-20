@@ -1,4 +1,5 @@
 boolean wkey, akey, skey, dkey;
+float leftRightHeadAngle, topBottomAngle;
 
 //camera variables
 float eyeX, eyeY, eyeZ, focusX, focusY, focusZ, tiltX, tiltY, tiltZ;
@@ -17,20 +18,43 @@ void setup() {
   tiltX = 0;
   tiltY = 1;
   tiltZ = 0;
+  noCursor();
 }
 
 void draw() {
   background(0);
+  camera(eyeX, eyeY, eyeZ, focusX, focusY, focusZ, tiltX, tiltY, tiltZ);
   drawFloor();
+  drawFocusPoint();
   controlCamera();
 }
+
+void drawFocusPoint() {
+  pushMatrix();
+  translate(focusX, focusY, focusZ);
+  sphere(5);
+  popMatrix();
+}
+
 void controlCamera() {
-  camera(eyeX, eyeY, eyeZ, focusX, focusY, focusZ, tiltX, tiltY, tiltZ);
   if (wkey) eyeZ = eyeZ + 10;
   if (skey) eyeZ = eyeZ - 10;
   if (akey) eyeX = eyeX - 10;
   if (dkey) eyeX = eyeX + 10;
-  
+
+leftRightHeadAngle = leftRightHeadAngle + (mouseX - pmouseX)*0.01;
+topBottomAngle = topBottomAngle + (mouseY - pmouseY)*0.01;
+
+focusX = eyeX + cos(leftRightHeadAngle)*300;
+focusZ = eyeZ + sin(leftRightHeadAngle)*300;
+focusY = eyeY + tan(topBottomAngle)*300;
+
+if (topBottomAngle > PI/2.5) topBottomAngle = PI/2.5;
+if (topBottomAngle < -PI/2.5) topBottomAngle = -PI/2.5;
+
+  //focusX = mouseX;
+  //focusZ = mouseY;
+
   //focusX = eyeX;
   //focusY = eyeY;
   //focusZ = eyeZ - 10;
