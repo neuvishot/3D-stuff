@@ -1,3 +1,8 @@
+import java.awt.Robot;
+Robot rbt;
+
+boolean skipFrame;
+
 boolean wkey, akey, skey, dkey;
 float leftRightHeadAngle, topBottomAngle;
 
@@ -5,7 +10,9 @@ float leftRightHeadAngle, topBottomAngle;
 float eyeX, eyeY, eyeZ, focusX, focusY, focusZ, tiltX, tiltY, tiltZ;
 
 void setup() {
-  size(800, 600, P3D);
+  fullScreen(P3D);
+  //size(800, 600, P3D);
+  //size(displayWidth, displayHeight, P3D);
   textureMode(NORMAL);
   wkey = akey = skey = dkey = false;
 
@@ -18,7 +25,14 @@ void setup() {
   tiltX = 0;
   tiltY = 1;
   tiltZ = 0;
-  noCursor();
+
+  try {
+    rbt = new Robot();
+  }
+  catch (Exception e) {
+    e.printStackTrace();
+  }
+  skipFrame = false;
 }
 
 void draw() {
@@ -37,20 +51,51 @@ void drawFocusPoint() {
 }
 
 void controlCamera() {
-  if (wkey) eyeZ = eyeZ + 10;
-  if (skey) eyeZ = eyeZ - 10;
-  if (akey) eyeX = eyeX - 10;
-  if (dkey) eyeX = eyeX + 10;
+  if (wkey) {
+    eyeX = eyeX + cos(leftRightHeadAngle)*10;
+    eyeZ = eyeZ + sin(leftRightHeadAngle)*10;
+  }
+  if (skey) {
+    eyeX = eyeX - cos(leftRightHeadAngle)*10;
+    eyeZ = eyeZ - sin(leftRightHeadAngle)*10;
+  }
+  if (akey) {
+    eyeX = eyeX - cos(leftRightHeadAngle + PI/2)*10;
+    eyeZ = eyeZ - sin(leftRightHeadAngle + PI/2)*10;
+  }
+  if (dkey) {
+    eyeX = eyeX - cos(leftRightHeadAngle - PI/2)*10;
+    eyeZ = eyeZ - sin(leftRightHeadAngle - PI/2)*10;
+  }
+  if (skipFrame == false) {
+    leftRightHeadAngle = leftRightHeadAngle + (mouseX - pmouseX)*0.01;
+    topBottomAngle = topBottomAngle + (mouseY - pmouseY)*0.01;
+  }
 
-leftRightHeadAngle = leftRightHeadAngle + (mouseX - pmouseX)*0.01;
-topBottomAngle = topBottomAngle + (mouseY - pmouseY)*0.01;
+  //leftRightHeadAngle = leftRightHeadAngle + (mouseX - pmouseX)*0.01;
+  //topBottomAngle = topBottomAngle + (mouseY - pmouseY)*0.01;
 
-focusX = eyeX + cos(leftRightHeadAngle)*300;
-focusZ = eyeZ + sin(leftRightHeadAngle)*300;
-focusY = eyeY + tan(topBottomAngle)*300;
+  focusX = eyeX + cos(leftRightHeadAngle)*300;
+  focusZ = eyeZ + sin(leftRightHeadAngle)*300;
+  focusY = eyeY + tan(topBottomAngle)*300;
 
-if (topBottomAngle > PI/2.5) topBottomAngle = PI/2.5;
-if (topBottomAngle < -PI/2.5) topBottomAngle = -PI/2.5;
+  if (topBottomAngle > PI/2.5) topBottomAngle = PI/2.5;
+  if (topBottomAngle < -PI/2.5) topBottomAngle = -PI/2.5;
+
+  //if (mouseX > width-2) rbt.mouseMove(3, mouseY);
+  //else if (mouseX < 2) rbt.mouseMove(width-3, mouseY);
+
+
+// 360 rotation smoothererer
+  if (mouseX < 2) {
+    rbt.mouseMove(width-3, mouseY);
+    skipFrame = true;
+  } else if (mouseX > width-2) {
+    rbt. mouseMove(3, mouseY);
+    skipFrame = true;
+  } else {
+    skipFrame = false;
+  }
 
   //focusX = mouseX;
   //focusZ = mouseY;
