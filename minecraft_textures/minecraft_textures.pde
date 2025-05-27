@@ -15,6 +15,8 @@ color white = #FFFFFF;
 
 int gridSize;
 PImage map;
+PImage diamond;
+PImage dirtTop, dirtSide, dirtBottom;
 
 void setup() {
   fullScreen(P3D);
@@ -22,6 +24,12 @@ void setup() {
   //size(displayWidth, displayHeight, P3D);
   textureMode(NORMAL);
   wkey = akey = skey = dkey = false;
+  
+  // textures -----------
+  diamond = loadImage("Diamond.png");
+  dirtTop = loadImage("Grass_Block_Top_C.png");
+  dirtSide = loadImage("Grass_Block_Side.png");
+  dirtBottom = loadImage("Dirt_(texture)_JE2_BE2.png");
 
   eyeX = width/ 2;
   eyeY = height / 2;
@@ -49,6 +57,7 @@ void setup() {
 void draw() {
   background(0);
   camera(eyeX, eyeY, eyeZ, focusX, focusY, focusZ, tiltX, tiltY, tiltZ);
+  texturedCube(0, 600, 0, "Grass_Block_Top_C.png", "Dirt_(texture)_JE2_BE2.png","Grass_Block_Side.png", 200);
   drawFloor();
   drawFocusPoint();
   controlCamera();
