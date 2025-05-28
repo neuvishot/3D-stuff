@@ -69,12 +69,16 @@ void drawMap() {
     for (int y = 0; y < map.height; y++) {
       color c = map.get(x, y);
       if (c != white) {
-        pushMatrix();
-        fill(c);
-        stroke(100); // the height below is to make sure that it doesnt draw cewnter at 0,0
-        translate(x*gridSize - 2000, height/2, y*gridSize-2000); // -20000 to make sure that things dont start getting built at 0,0
-        box(gridSize, height, gridSize);
-        popMatrix();
+        Cube(x*gridSize-2000, height-gridSize, y*gridSize-2000, "Diamond.png", gridSize);
+        Cube(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, "Diamond.png", gridSize);
+        Cube(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, "Diamond.png", gridSize);
+        
+        //pushMatrix();
+        //fill(c);
+        //stroke(100); // the height below is to make sure that it doesnt draw cewnter at 0,0
+        //translate(x*gridSize - 2000, height/2, y*gridSize-2000); // -20000 to make sure that things dont start getting built at 0,0
+        //box(gridSize, height, gridSize);
+        //popMatrix();
       }
     }
   }
