@@ -7,13 +7,8 @@ also find a way to fix the insane lag, like whys it happening
 
 */
 
-void texturedCube(float x, float y, float z, String top, String bottom, String side, float size) {
+void texturedCube(float x, float y, float z, PImage Top, PImage Bottom, PImage Side, float size) {
   textureMode(NORMAL);
-  PImage Top, Side, Bottom;
-  
-  Top = loadImage(top);
-  Side = loadImage(side);
-  Bottom = loadImage(bottom);
 
   pushMatrix();
   translate(x, y, z);
@@ -76,11 +71,9 @@ void texturedCube(float x, float y, float z, String top, String bottom, String s
   popMatrix();
 }
 
-void Cube(float x, float y, float z, String top, float size) {
+void Cube(float x, float y, float z, PImage top, float size) {
   textureMode(NORMAL);
-  PImage Top;
-  
-  Top = loadImage(top);
+
 
   pushMatrix();
   translate(x, y, z);
@@ -88,7 +81,7 @@ void Cube(float x, float y, float z, String top, float size) {
   noStroke();
 
   beginShape(QUADS);
-  texture(Top);
+  texture(top);
   // top
   // x, y, z, tx, ty (texture x and texture y)
   vertex(0, 0, 0, 0, 0);
