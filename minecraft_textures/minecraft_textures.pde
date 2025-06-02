@@ -57,7 +57,11 @@ void setup() {
 
 void draw() {
   background(255);
+  
+  pointLight(0, 255, 0, eyeX, eyeY, eyeZ);
   camera(eyeX, eyeY, eyeZ, focusX, focusY, focusZ, tiltX, tiltY, tiltZ);
+  
+ 
   texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
   drawFloor(-2000, 2000, height, 100);
   drawFocusPoint();
