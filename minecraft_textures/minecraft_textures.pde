@@ -57,11 +57,11 @@ void setup() {
 
 void draw() {
   background(255);
-  
+
   pointLight(0, 255, 0, eyeX, eyeY, eyeZ);
   camera(eyeX, eyeY, eyeZ, focusX, focusY, focusZ, tiltX, tiltY, tiltZ);
-  
- 
+
+
   texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
   drawFloor(-2000, 2000, height, 100);
   drawFocusPoint();
@@ -99,15 +99,15 @@ void drawFocusPoint() {
 }
 
 void controlCamera() {
-  if (wkey) {
+  if (wkey && canMoveForward()) {
     eyeX = eyeX + cos(leftRightHeadAngle)*10;
     eyeZ = eyeZ + sin(leftRightHeadAngle)*10;
-  }
-  if (skey) {
+  } 
+  if (skey ) {
     eyeX = eyeX - cos(leftRightHeadAngle)*10;
     eyeZ = eyeZ - sin(leftRightHeadAngle)*10;
   }
-  if (akey) {
+  if (akey ) {
     eyeX = eyeX - cos(leftRightHeadAngle + PI/2)*10;
     eyeZ = eyeZ - sin(leftRightHeadAngle + PI/2)*10;
   }
@@ -120,9 +120,6 @@ void controlCamera() {
     topBottomAngle = topBottomAngle + (mouseY - pmouseY)*0.01;
   }
 
-  //leftRightHeadAngle = leftRightHeadAngle + (mouseX - pmouseX)*0.01;
-  //topBottomAngle = topBottomAngle + (mouseY - pmouseY)*0.01;
-
   focusX = eyeX + cos(leftRightHeadAngle)*300;
   focusZ = eyeZ + sin(leftRightHeadAngle)*300;
   focusY = eyeY + tan(topBottomAngle)*300;
@@ -132,10 +129,6 @@ void controlCamera() {
 
   if (shiftkey || downkey) eyeY = eyeY + 3;
   if (upkey || qkey) eyeY = eyeY - 3;
-
-  //if (mouseX > width-2) rbt.mouseMove(3, mouseY);
-  //else if (mouseX < 2) rbt.mouseMove(width-3, mouseY);
-
 
   // 360 rotation smoothererer
   if (mouseX < 2) {
@@ -147,13 +140,35 @@ void controlCamera() {
   } else {
     skipFrame = false;
   }
+}
 
-  //focusX = mouseX;
-  //focusZ = mouseY;
+boolean canMoveForward() {
+  float fwdx, fwdy, fwdz;
+  float leftx, lefty, leftz;
+  float rightx, righty, rightz;
+  int mapx, mapy;
+  fwdx = eyeX + cos(leftRightHeadAngle)*200; // SUBTRACT FROM THE ANGLES TO MAKE THE LEFT AND RIGHT STCHUFF
+  fwdy = eyeY + tan(topBottomAngle)*300;
+  fwdz = eyeZ + sin(leftRightHeadAngle)*200;
+  
+  leftx = eyeX + cos(leftRightHeadAngle)*100;
+  lefty = eyeY + tan(topBottomAngle)*300;
+  leftz = eyeZ + sin(leftRightHeadAngle)*200;
+  
+  pushMatrix();
+  translate(leftx, lefty, leftz);
+  sphere(5);
+  
+  popMatrix();
 
-  //focusX = eyeX;
-  //focusY = eyeY;
-  //focusZ = eyeZ - 10;
+  mapx = int(fwdx+2000) / gridSize;
+  mapy = int(fwdz+2000) / gridSize;
+
+  if (map.get(mapx, mapy) == white) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 void mouseDragged() {
