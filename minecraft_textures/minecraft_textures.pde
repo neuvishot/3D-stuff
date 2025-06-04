@@ -102,7 +102,7 @@ void controlCamera() {
   if (wkey && canMoveForward()) {
     eyeX = eyeX + cos(leftRightHeadAngle)*10;
     eyeZ = eyeZ + sin(leftRightHeadAngle)*10;
-  } 
+  }
   if (skey ) {
     eyeX = eyeX - cos(leftRightHeadAngle)*10;
     eyeZ = eyeZ - sin(leftRightHeadAngle)*10;
@@ -150,19 +150,29 @@ boolean canMoveForward() {
   fwdx = eyeX + cos(leftRightHeadAngle)*200; // SUBTRACT FROM THE ANGLES TO MAKE THE LEFT AND RIGHT STCHUFF
   fwdy = eyeY + tan(topBottomAngle)*300;
   fwdz = eyeZ + sin(leftRightHeadAngle)*200;
-  
-  leftx = eyeX + cos(leftRightHeadAngle)*100;
+
+  leftx = eyeX + cos(leftRightHeadAngle+PI/8)*300;
   lefty = eyeY + tan(topBottomAngle)*300;
-  leftz = eyeZ + sin(leftRightHeadAngle)*200;
-  
+  leftz = eyeZ + sin(leftRightHeadAngle+PI/8)*300;
+
+  rightx = eyeX + cos(leftRightHeadAngle-PI/8)*300;
+  righty = eyeY + tan(topBottomAngle)*300;
+  rightz = eyeZ + sin(leftRightHeadAngle-PI/8)*300;
+
   pushMatrix();
   translate(leftx, lefty, leftz);
   sphere(5);
-  
+  popMatrix();
+
+  pushMatrix();
+  translate(rightx, righty, rightz);
+  sphere(5);
   popMatrix();
 
   mapx = int(fwdx+2000) / gridSize;
   mapy = int(fwdz+2000) / gridSize;
+  mapx = int(leftx+2000) / gridSize;
+  mapy = int(leftz+2000) / gridSize;
 
   if (map.get(mapx, mapy) == white) {
     return true;
