@@ -1,4 +1,5 @@
 import java.awt.Robot;
+import java.util.ArrayList;
 Robot rbt;
 
 boolean skipFrame;
@@ -18,9 +19,12 @@ PImage map;
 PImage diamond;
 PImage dirtTop, dirtSide, dirtBottom;
 
+// game objects
+ArrayList<GameObject> objects;
+
 void setup() {
   fullScreen(P3D);
-
+objects = new ArrayList<GameObject>();
   //size(800, 600, P3D);
   //size(displayWidth, displayHeight, P3D);
   textureMode(NORMAL);
@@ -58,7 +62,7 @@ void setup() {
 void draw() {
   background(255);
 
-  pointLight(0, 255, 0, eyeX, eyeY, eyeZ);
+  pointLight(255, 255, 255, eyeX, eyeY, eyeZ);
   camera(eyeX, eyeY, eyeZ, focusX, focusY, focusZ, tiltX, tiltY, tiltZ);
 
 
@@ -98,88 +102,7 @@ void drawFocusPoint() {
   popMatrix();
 }
 
-void controlCamera() {
-  if (wkey && canMoveForward()) {
-    eyeX = eyeX + cos(leftRightHeadAngle)*10;
-    eyeZ = eyeZ + sin(leftRightHeadAngle)*10;
-  }
-  if (skey ) {
-    eyeX = eyeX - cos(leftRightHeadAngle)*10;
-    eyeZ = eyeZ - sin(leftRightHeadAngle)*10;
-  }
-  if (akey ) {
-    eyeX = eyeX - cos(leftRightHeadAngle + PI/2)*10;
-    eyeZ = eyeZ - sin(leftRightHeadAngle + PI/2)*10;
-  }
-  if (dkey) {
-    eyeX = eyeX - cos(leftRightHeadAngle - PI/2)*10;
-    eyeZ = eyeZ - sin(leftRightHeadAngle - PI/2)*10;
-  }
-  if (skipFrame == false) {
-    leftRightHeadAngle = leftRightHeadAngle + (mouseX - pmouseX)*0.01;
-    topBottomAngle = topBottomAngle + (mouseY - pmouseY)*0.01;
-  }
 
-  focusX = eyeX + cos(leftRightHeadAngle)*300;
-  focusZ = eyeZ + sin(leftRightHeadAngle)*300;
-  focusY = eyeY + tan(topBottomAngle)*300;
-
-  if (topBottomAngle > PI/2.5) topBottomAngle = PI/2.5;
-  if (topBottomAngle < -PI/2.5) topBottomAngle = -PI/2.5;
-
-  if (shiftkey || downkey) eyeY = eyeY + 3;
-  if (upkey || qkey) eyeY = eyeY - 3;
-
-  // 360 rotation smoothererer
-  if (mouseX < 2) {
-    rbt.mouseMove(width-3, mouseY);
-    skipFrame = true;
-  } else if (mouseX > width-2) {
-    rbt. mouseMove(3, mouseY);
-    skipFrame = true;
-  } else {
-    skipFrame = false;
-  }
-}
-
-boolean canMoveForward() {
-  float fwdx, fwdy, fwdz;
-  float leftx, lefty, leftz;
-  float rightx, righty, rightz;
-  int mapx, mapy;
-  fwdx = eyeX + cos(leftRightHeadAngle)*200; // SUBTRACT FROM THE ANGLES TO MAKE THE LEFT AND RIGHT STCHUFF
-  fwdy = eyeY + tan(topBottomAngle)*300;
-  fwdz = eyeZ + sin(leftRightHeadAngle)*200;
-
-  leftx = eyeX + cos(leftRightHeadAngle+PI/8)*300;
-  lefty = eyeY + tan(topBottomAngle)*300;
-  leftz = eyeZ + sin(leftRightHeadAngle+PI/8)*300;
-
-  rightx = eyeX + cos(leftRightHeadAngle-PI/8)*300;
-  righty = eyeY + tan(topBottomAngle)*300;
-  rightz = eyeZ + sin(leftRightHeadAngle-PI/8)*300;
-
-  pushMatrix();
-  translate(leftx, lefty, leftz);
-  sphere(5);
-  popMatrix();
-
-  pushMatrix();
-  translate(rightx, righty, rightz);
-  sphere(5);
-  popMatrix();
-
-  mapx = int(fwdx+2000) / gridSize;
-  mapy = int(fwdz+2000) / gridSize;
-  mapx = int(leftx+2000) / gridSize;
-  mapy = int(leftz+2000) / gridSize;
-
-  if (map.get(mapx, mapy) == white) {
-    return true;
-  } else {
-    return false;
-  }
-}
 
 void mouseDragged() {
   eyeX = eyeX + (pmouseY - mouseY) * 0.1;
@@ -199,12 +122,6 @@ void drawFloor(int start, int end, int level, int gap) {
       z = z + gap;
     }
   }
-
-  // draw the lines ------------------------------------
-  //for (int x = -2000; x <= 2000; x = x + 100) {
-  //  line(x, height, -2000, x, height, 2000);
-  //  line(-2000, height, x, 2000, height, x);
-  //}
 }
 
 void keyPressed() {
