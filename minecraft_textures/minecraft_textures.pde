@@ -22,9 +22,12 @@ PImage dirtTop, dirtSide, dirtBottom;
 // game objects
 ArrayList<GameObject> objects;
 
+// cavnasses
+PGraphics world;
+
 void setup() {
   fullScreen(P3D);
-objects = new ArrayList<GameObject>();
+  objects = new ArrayList<GameObject>();
   //size(800, 600, P3D);
   //size(displayWidth, displayHeight, P3D);
   textureMode(NORMAL);
@@ -65,6 +68,18 @@ void draw() {
   pointLight(255, 255, 255, eyeX, eyeY, eyeZ);
   camera(eyeX, eyeY, eyeZ, focusX, focusY, focusZ, tiltX, tiltY, tiltZ);
 
+  // loop to make the object work
+  int i = 0;
+  while (i < objects.size()) {
+    GameObject obj = objects.get(i);
+    obj.act();
+    obj.show();
+    if (obj.lives == 0) {
+      objects.remove(i);
+    } else {
+      i++;
+    }
+  }
 
   texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
   drawFloor(-2000, 2000, height, 100);
