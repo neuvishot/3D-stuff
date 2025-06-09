@@ -23,9 +23,14 @@ PImage dirtTop, dirtSide, dirtBottom;
 ArrayList<GameObject> objects;
 
 // cavnasses
-PGraphics world;
+//PGraphics world;
+//PGraphics HUD; // heads up display
 
 void setup() {
+  // create canvases
+  //world = createGraphics(width, height, P3D);
+  //world = createGraphics(width, height, P3D);
+  
   fullScreen(P3D);
   objects = new ArrayList<GameObject>();
   //size(800, 600, P3D);
