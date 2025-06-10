@@ -105,15 +105,15 @@ boolean canMoveForward() {
 
   // left and right are switched cries
 
-  pushMatrix();
-  translate(leftx, lefty, leftz);
-  sphere(5);
-  popMatrix();
+  world.pushMatrix();
+  world.translate(leftx, lefty, leftz);
+  world.sphere(5);
+  world.popMatrix();
 
-  pushMatrix();
-  translate(rightx, righty, rightz);
-  sphere(5);
-  popMatrix();
+  world.pushMatrix();
+  world.translate(rightx, righty, rightz);
+  world.sphere(5);
+  world.popMatrix();
 
   fmapx = int(fwdx+2000) / gridSize;
   fmapy = int(fwdz+2000) / gridSize;

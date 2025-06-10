@@ -8,6 +8,7 @@ also find a way to fix the insane lag, like whys it happening
 */
 
 void texturedCube(float x, float y, float z, PImage Top, PImage Bottom, PImage Side, float size) {
+  world.textureMode(NORMAL);
   world.pushMatrix();
   world.translate(x, y, z);
   world.scale(size);
@@ -70,6 +71,7 @@ void texturedCube(float x, float y, float z, PImage Top, PImage Bottom, PImage S
 }
 
 void Cube(float x, float y, float z, PImage top, float size) {
+  world.textureMode(NORMAL);
   world.pushMatrix();
   world.translate(x, y, z);
   world.scale(size);

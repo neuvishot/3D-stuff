@@ -2,6 +2,9 @@ import java.awt.Robot;
 import java.util.ArrayList;
 Robot rbt;
 
+// happyness hihIIIIII
+PImage doumaur;
+
 boolean skipFrame;
 
 boolean wkey, akey, skey, dkey, shiftkey, upkey, downkey, qkey;
@@ -43,6 +46,7 @@ void setup() {
   dirtTop = loadImage("Grass_Block_Top_C.png");
   dirtSide = loadImage("Grass_Block_Side.png");
   dirtBottom = loadImage("Dirt_(texture)_JE2_BE2.png");
+  doumaur = loadImage("doumaour.png");
 
   eyeX = width/ 2;
   eyeY = height / 2;
@@ -79,8 +83,8 @@ void draw() {
   drawFocusPoint();
   controlCamera();
   drawMap();
- 
-   // loop to make the object work
+
+  // loop to make the object work
   int i = 0;
   while (i < objects.size()) {
     GameObject obj = objects.get(i);
@@ -92,11 +96,33 @@ void draw() {
       i++;
     }
   }
-  
- // -------------------------------------------------------
+
+  // -------------------------------------------------------
   world.endDraw();
   image(world, 0, 0);
+
+  stroke(255);
+  strokeWeight(5);
+  line(width/2-20, height/2, width/2+20, height/2);
+  line(width/2, height/2-20, width/2, height/2+20);
+  //line(width/2, height/2, width, height/2);
+  image(doumaur, 0, 0, 200, 200);
 }
+
+// change the map for the second world,, load a new image for this map
+
+// blocks.add in the setup while loading the map in setup
+// make a new array list for blocks, not in gameobject. make sure the blocks list can read from the png file
+// the blocks class just do .show bcs the blocks just need to be able to hold information
+
+/*
+(while (i< blocks.size)
+block b = blocks.get(i)
+b.show();
+i++
+
+ with this, loop thorough this when checking collisions
+*/
 
 void drawMap() {
   for (int x = 0; x < map.width; x++) { // the width and height of the map picture, not of the envirment
@@ -135,8 +161,8 @@ void mouseDragged() {
 }
 
 void drawFloor(int start, int end, int level, int gap) {
-  stroke(255);
-  strokeWeight(1);
+  world.stroke(255);
+  world.strokeWeight(1);
   int x = start;
   int z = start;
   while ( z < end) {
