@@ -26,11 +26,16 @@ ArrayList<GameObject> objects;
 //PGraphics world;
 //PGraphics HUD; // heads up display
 
+PShape bamboo;
+PImage texture;
+float ry;
+PImage bambooTop, bambooSide;
+
 void setup() {
   // create canvases
   //world = createGraphics(width, height, P3D);
   //world = createGraphics(width, height, P3D);
-  
+
   fullScreen(P3D);
   objects = new ArrayList<GameObject>();
   //size(800, 600, P3D);
@@ -38,6 +43,11 @@ void setup() {
   textureMode(NORMAL);
   wkey = akey = skey = dkey = false;
 
+  bamboo = loadShape("bambooset.obj");
+  texture = loadImage("bambooSide.png");
+  bamboo.setTexture(texture);
+  bambooTop = loadImage("bambooTop.png");
+  bambooSide = loadImage("bambooSide.png");
   // textures -----------
   diamond = loadImage("Diamond.png");
   dirtTop = loadImage("Grass_Block_Top_C.png");
@@ -86,6 +96,13 @@ void draw() {
     }
   }
 
+  pushMatrix();
+  scale(10);
+  translate(0, 600, 0);
+  shape(bamboo);
+  popMatrix();
+
+  bamboo(0, 100, 0, bambooTop, bambooTop, bambooSide, 10);
   texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
   drawFloor(-2000, 2000, height, 100);
   drawFocusPoint();
