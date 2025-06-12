@@ -69,7 +69,7 @@ void bamboo(float x, float y, float z, PImage Top, PImage Bottom, PImage Side, f
   vertex(-a, 16, -a, 0, 0);// keep
   vertex(-a, 16, a, 1, 0);
   vertex(-a, 0, a, 1, 1);
-  vertex(-a, 0, -a, 0, 0);
+  vertex(-a, 0, -a, 0, 1);
   endShape();
   popMatrix();
 }

@@ -31,6 +31,8 @@ PImage texture;
 float ry;
 PImage bambooTop, bambooSide;
 
+block bam;
+
 void setup() {
   // create canvases
   //world = createGraphics(width, height, P3D);
@@ -46,13 +48,14 @@ void setup() {
   bamboo = loadShape("bambooset.obj");
   texture = loadImage("bambooSide.png");
   bamboo.setTexture(texture);
-  bambooTop = loadImage("bambooTop.png");
-  bambooSide = loadImage("bambooSide.png");
+  bambooTop = loadImage("bambootop.png");
+  bambooSide = loadImage("bamboo.png");
   // textures -----------
   diamond = loadImage("Diamond.png");
   dirtTop = loadImage("Grass_Block_Top_C.png");
   dirtSide = loadImage("Grass_Block_Side.png");
   dirtBottom = loadImage("Dirt_(texture)_JE2_BE2.png");
+  bam = new block(0, 950, 0, 5);
 
   eyeX = width/ 2;
   eyeY = height / 2;
@@ -79,7 +82,6 @@ void setup() {
 
 void draw() {
   background(255);
-
   pointLight(255, 255, 255, eyeX, eyeY, eyeZ);
   camera(eyeX, eyeY, eyeZ, focusX, focusY, focusZ, tiltX, tiltY, tiltZ);
 
@@ -102,7 +104,9 @@ void draw() {
   shape(bamboo);
   popMatrix();
 
-  bamboo(0, 100, 0, bambooTop, bambooTop, bambooSide, 10);
+  bam.show();
+
+  bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
   texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
   drawFloor(-2000, 2000, height, 100);
   drawFocusPoint();
