@@ -21,6 +21,7 @@ PImage dirtTop, dirtSide, dirtBottom;
 
 // game objects
 ArrayList<GameObject> objects;
+boolean drawing2;
 
 // cavnasses
 //PGraphics world;
@@ -37,7 +38,7 @@ void setup() {
   // create canvases
   //world = createGraphics(width, height, P3D);
   //world = createGraphics(width, height, P3D);
-
+  drawing2 = false;
   fullScreen(P3D);
   objects = new ArrayList<GameObject>();
   //size(800, 600, P3D);
@@ -97,21 +98,39 @@ void draw() {
       i++;
     }
   }
+  
+  if (frameCount % 3 == 0){
+  //for(int a = 0; a < 50; a++){
+    objects.add(new rain());
+  }
 
-  pushMatrix();
-  scale(10);
-  translate(0, 600, 0);
-  shape(bamboo);
-  popMatrix();
-
-  bam.show();
-
-  bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
-  texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
-  drawFloor(-2000, 2000, height, 100);
   drawFocusPoint();
   controlCamera();
-  drawMap();
+  
+  
+  if (eyeY > 900) drawing2 = true;
+
+  if (!drawing2) {
+    pushMatrix();
+    scale(10);
+    translate(0, 600, 0);
+    shape(bamboo);
+    popMatrix();
+
+    bam.show();
+
+
+
+    bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
+    texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
+    drawFloor1(-2000, 2000, height, 100);
+
+    drawMap();
+  } else {
+    background(200);
+    drawFloor2(-2000, 2000, height, 100);
+    bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
+  }
 }
 
 void drawMap() {
@@ -150,7 +169,22 @@ void mouseDragged() {
   eyeZ = eyeZ + (pmouseX - mouseX) * -0.1;
 }
 
-void drawFloor(int start, int end, int level, int gap) {
+void drawFloor2(int start, int end, int level, int gap) {
+  stroke(255);
+  strokeWeight(1);
+  int x = start;
+  int z = start;
+  while ( z < end) {
+    Cube(x, level, z, diamond, gap);
+    x = x + gap;
+    if (x >= end) {
+      x = start;
+      z = z + gap;
+    }
+  }
+}
+
+void drawFloor1(int start, int end, int level, int gap) {
   stroke(255);
   strokeWeight(1);
   int x = start;

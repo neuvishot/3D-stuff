@@ -11,21 +11,17 @@ class GameObject{
   
   GameObject(float x, float y, float z, float s){
    lives = 1;
+   vel = new PVector(random(0, 1), 3, random(0, 1));
    loc = new PVector(x, y, z);
    size = s;
   }
   
   void act(){
-    
+
   }
   
   void show(){
-    pushMatrix();
-    translate(loc.x, loc.y, loc.z);
-    fill(255);
-    stroke(100);
-    box(size);
-    popMatrix();
+   
   }
   
   

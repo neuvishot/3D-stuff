@@ -12,7 +12,7 @@ class block {
     y = yy;
     z = zz;
     tall = amount;
-    xsize = ysize = 3 * 10;
+    xsize = ysize = 3/2 * 10;
   }
 
 
@@ -32,6 +32,7 @@ class block {
 
 
   float getWidth() {
+    
     return ysize;
   }
 
