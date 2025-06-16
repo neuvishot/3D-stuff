@@ -31,6 +31,7 @@ PShape bamboo;
 PImage texture;
 float ry;
 PImage bambooTop, bambooSide;
+PShape sakura;
 
 block bam;
 
@@ -46,6 +47,7 @@ void setup() {
   textureMode(NORMAL);
   wkey = akey = skey = dkey = false;
 
+  sakura = loadShape("Sakura.obj");
   bamboo = loadShape("bambooset.obj");
   texture = loadImage("bambooSide.png");
   bamboo.setTexture(texture);
@@ -98,16 +100,16 @@ void draw() {
       i++;
     }
   }
-  
-  if (frameCount % 3 == 0){
-  //for(int a = 0; a < 50; a++){
+
+  if (frameCount % 3 == 0) {
     objects.add(new rain());
   }
 
   drawFocusPoint();
   controlCamera();
-  
-  
+  shape(sakura);
+
+
   if (eyeY > 900) drawing2 = true;
 
   if (!drawing2) {
