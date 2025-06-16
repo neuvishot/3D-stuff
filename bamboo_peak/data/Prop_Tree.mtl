@@ -1,0 +1,53 @@
+# MTL file - created by a modified js OBJExporter
+
+newmtl Bark
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000
+illum 1
+Pr 0.858578622341156
+Pds 1
+Pl 1
+Ka 1 1 1
+Kd 0.5879999995231628 0.5879999995231628 0.5879999995231628
+Ke 0 0 0
+
+map_Kd Bark_D.png
+
+
+newmtl Leaves_and_Branches
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000
+illum 1
+Pr 0.858578622341156
+Pds 1
+Pl 1
+Ka 1 1 1
+Kd 0.5879999995231628 0.5879999995231628 0.5879999995231628
+Ke 0 0 0
+map_Kd Sakura_combined.png
+
+
+newmtl Material_46
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000
+illum 1
+Pr 0.858578622341156
+Pds 1
+Pl 1
+Ka 1 1 1
+Kd 0.5879999995231628 0.5879999995231628 0.5879999995231628
+Ke 0 0 0
+map_Kd Bench_D.png
+
+newmtl Material_0.001
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000
+illum 1
+Pr 0.858578622341156
+Pds 1
+Pl 1
+Ka 1 1 1
+Kd 0.5879999995231628 0.5879999995231628 0.5879999995231628
+Ke 0 0 0
+map_Kd Sandals_D.png
+

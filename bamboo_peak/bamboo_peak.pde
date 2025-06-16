@@ -21,6 +21,7 @@ int gridSize;
 PImage map;
 PImage diamond;
 PImage dirtTop, dirtSide, dirtBottom;
+PImage bambooTop, bambooSide;
 
 // game objects
 ArrayList<GameObject> objects;
@@ -28,9 +29,13 @@ ArrayList<GameObject> objects;
 // cavnasses
 PGraphics world;
 PGraphics HUD; // heads up display
+block bam;
+boolean drawing2;
+PShape sakura, bambour;
 
 void setup() {
   // create canvases
+  drawing2 = false;
   world = createGraphics(width, height, P3D);
   world = createGraphics(width, height, P3D);
 
@@ -40,6 +45,9 @@ void setup() {
   //size(displayWidth, displayHeight, P3D);
   world.textureMode(NORMAL);
   wkey = akey = skey = dkey = false;
+  
+  sakura = loadShape("Prop_Tree.obj");
+  bambour = loadShape("bamboo.obj");
 
   // textures -----------
   diamond = loadImage("Diamond.png");
@@ -47,6 +55,10 @@ void setup() {
   dirtSide = loadImage("Grass_Block_Side.png");
   dirtBottom = loadImage("Dirt_(texture)_JE2_BE2.png");
   doumaur = loadImage("doumaour.png");
+  
+  bambooTop = loadImage("bambootop.png");
+  bambooSide = loadImage("bamboo.png");
+  bam = new block(0, 950, 0, 5);
 
   eyeX = width/ 2;
   eyeY = height / 2;
@@ -96,7 +108,28 @@ void draw() {
       i++;
     }
   }
+  
+if (eyeY > 900) drawing2 = true;
 
+if (!drawing2) {
+
+    bam.show();
+    bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
+    texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
+    drawFloor1(-2000, 2000, height, 100);
+
+    drawMap();
+    
+    world.shape(sakura);
+    world.shape(bambour);
+    
+  } else {
+    background(200);
+    drawFloor2(-2000, 2000, height, 100);
+    bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
+  }
+
+  
   // -------------------------------------------------------
   world.endDraw();
   image(world, 0, 0);
@@ -117,12 +150,41 @@ void draw() {
 
 /*
 (while (i< blocks.size)
-block b = blocks.get(i)
-b.show();
-i++
-
+ block b = blocks.get(i)
+ b.show();
+ i++
+ 
  with this, loop thorough this when checking collisions
-*/
+ */
+void drawFloor2(int start, int end, int level, int gap) {
+  world.stroke(255);
+  world.strokeWeight(1);
+  int x = start;
+  int z = start;
+  while ( z < end) {
+    Cube(x, level, z, diamond, gap);
+    x = x + gap;
+    if (x >= end) {
+      x = start;
+      z = z + gap;
+    }
+  }
+}
+
+void drawFloor1(int start, int end, int level, int gap) {
+  world.stroke(255);
+  world.strokeWeight(1);
+  int x = start;
+  int z = start;
+  while ( z < end) {
+    Cube(x, level, z, dirtSide, gap);
+    x = x + gap;
+    if (x >= end) {
+      x = start;
+      z = z + gap;
+    }
+  }
+}
 
 void drawMap() {
   for (int x = 0; x < map.width; x++) { // the width and height of the map picture, not of the envirment
