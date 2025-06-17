@@ -1,3 +1,17 @@
+/*
+colors to remeber height:
+
+lowest =  #8FED14
+medium = #77D621;
+highest = #22B14C;
+boder color = #7092BE;
+
+water: #90FFF5
+
+*/
+
+
+
 class Snowball extends GameObject {
 
   PVector dir;

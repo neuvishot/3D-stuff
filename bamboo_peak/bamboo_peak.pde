@@ -22,6 +22,7 @@ PImage map;
 PImage diamond;
 PImage dirtTop, dirtSide, dirtBottom;
 PImage bambooTop, bambooSide;
+PImage brick, crack, face, ground;
 
 // game objects
 ArrayList<GameObject> objects;
@@ -31,7 +32,7 @@ PGraphics world;
 PGraphics HUD; // heads up display
 block bam;
 boolean drawing2;
-PShape sakura, bambour;
+PShape sakura;
 
 void setup() {
   // create canvases
@@ -45,9 +46,8 @@ void setup() {
   //size(displayWidth, displayHeight, P3D);
   world.textureMode(NORMAL);
   wkey = akey = skey = dkey = false;
-  
+
   sakura = loadShape("Prop_Tree.obj");
-  bambour = loadShape("bamboo.obj");
 
   // textures -----------
   diamond = loadImage("Diamond.png");
@@ -55,14 +55,25 @@ void setup() {
   dirtSide = loadImage("Grass_Block_Side.png");
   dirtBottom = loadImage("Dirt_(texture)_JE2_BE2.png");
   doumaur = loadImage("doumaour.png");
-  
+  brick = loadImage("brick.png");
+  crack = loadImage("cracked.png");
+  face = loadImage("face.png");
+  ground = loadImage("sground.png");
+
   bambooTop = loadImage("bambootop.png");
   bambooSide = loadImage("bamboo.png");
   bam = new block(0, 950, 0, 5);
 
-  eyeX = width/ 2;
-  eyeY = height / 2;
-  eyeZ = 0;
+  // player view
+  eyeX = -100;
+  eyeY = height-150;
+  eyeZ = -2000;
+
+  //// up view
+  //eyeX = 0;
+  //eyeY = -height-150;
+  //eyeZ = 0;
+
   focusX = width/2;
   focusY =  height/2;
   focusZ = 10;
@@ -89,12 +100,9 @@ void draw() {
 
   world.pointLight(255, 255, 255, eyeX, eyeY, eyeZ);
   world.camera(eyeX, eyeY, eyeZ, focusX, focusY, focusZ, tiltX, tiltY, tiltZ);
-
-  texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
-  drawFloor(-2000, 2000, height, 100);
   drawFocusPoint();
   controlCamera();
-  drawMap();
+
 
   // loop to make the object work
   int i = 0;
@@ -108,28 +116,26 @@ void draw() {
       i++;
     }
   }
-  
-if (eyeY > 900) drawing2 = true;
 
-if (!drawing2) {
+  if (eyeY > height+ 100) drawing2 = true;
 
+  if (!drawing2) {
+    texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
     bam.show();
     bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
     texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
     drawFloor1(-2000, 2000, height, 100);
 
     drawMap();
-    
+
     world.shape(sakura);
-    world.shape(bambour);
-    
   } else {
     background(200);
     drawFloor2(-2000, 2000, height, 100);
     bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
   }
 
-  
+
   // -------------------------------------------------------
   world.endDraw();
   image(world, 0, 0);
@@ -177,7 +183,7 @@ void drawFloor1(int start, int end, int level, int gap) {
   int x = start;
   int z = start;
   while ( z < end) {
-    Cube(x, level, z, dirtSide, gap);
+    Cube(x, level, z, ground, gap);
     x = x + gap;
     if (x >= end) {
       x = start;
@@ -191,9 +197,9 @@ void drawMap() {
     for (int y = 0; y < map.height; y++) {
       color c = map.get(x, y);
       if (c != white) {
-        Cube(x*gridSize-2000, height-gridSize, y*gridSize-2000, diamond, gridSize);
-        Cube(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, diamond, gridSize);
-        Cube(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, diamond, gridSize);
+        Cube(x*gridSize-2000, height-gridSize, y*gridSize-2000, face, gridSize);
+        Cube(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, brick, gridSize);
+        Cube(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, crack, gridSize);
 
         //pushMatrix();
         //fill(c);
