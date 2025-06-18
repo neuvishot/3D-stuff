@@ -7,6 +7,12 @@ also find a way to fix the insane lag, like whys it happening
 
 */
 
+void model(){
+   
+
+
+}
+
 void bamboo(float x, float y, float z, PImage Top, PImage Bottom, PImage Side, float size) {
   world.textureMode(NORMAL);
 

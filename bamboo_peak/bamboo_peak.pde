@@ -1,3 +1,8 @@
+// to ask:
+// how to do transparency in processing
+
+
+
 import java.awt.Robot;
 import java.util.ArrayList;
 Robot rbt;
@@ -18,10 +23,10 @@ color black = #000000;
 color white = #FFFFFF;
 
 int gridSize;
-PImage map;
+PImage map, map2;
 PImage diamond;
 PImage dirtTop, dirtSide, dirtBottom;
-PImage bambooTop, bambooSide;
+PImage bambooTop, bambooSide, bambooLeaf;
 PImage brick, crack, face, ground;
 
 // game objects
@@ -32,7 +37,7 @@ PGraphics world;
 PGraphics HUD; // heads up display
 block bam;
 boolean drawing2;
-PShape sakura;
+PShape sakura, bambour;
 
 void setup() {
   // create canvases
@@ -48,6 +53,7 @@ void setup() {
   wkey = akey = skey = dkey = false;
 
   sakura = loadShape("Prop_Tree.obj");
+  bambour = loadShape("boo/bamboo.obj");
 
   // textures -----------
   diamond = loadImage("Diamond.png");
@@ -62,7 +68,9 @@ void setup() {
 
   bambooTop = loadImage("bambootop.png");
   bambooSide = loadImage("bamboo.png");
+  bambooLeaf = loadImage("bambooLeaf.png");
   bam = new block(0, 950, 0, 5);
+
 
   // player view
   eyeX = -100;
@@ -83,6 +91,7 @@ void setup() {
 
   // initialize map -------------
   map = loadImage("3Dmap.png");
+  map2 = loadImage("3Dmap2.png");
   gridSize = 100;
 
   try {
@@ -92,6 +101,9 @@ void setup() {
     e.printStackTrace();
   }
   skipFrame = false;
+
+  //world.hint(ENABLE_DEPTH_SORT);
+  //world.hint(ENABLE_DEPTH_SORT);
 }
 
 void draw() {
@@ -120,19 +132,25 @@ void draw() {
   if (eyeY > height+ 100) drawing2 = true;
 
   if (!drawing2) {
-    texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
+    texturedCube(0, 800, 0, bambooLeaf, bambooLeaf, bambooLeaf, 200);
     bam.show();
     bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
     texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
     drawFloor1(-2000, 2000, height, 100);
 
     drawMap();
-
+    world.pushMatrix();
+    world.translate(0, height/2, 0);
+    world.rotateX(radians(180));
     world.shape(sakura);
+    world.translate(0, height/2, 200);
+    world.shape(bambour);
+    world.popMatrix();
   } else {
     background(200);
     drawFloor2(-2000, 2000, height, 100);
     bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
+    drawMap2();
   }
 
 
@@ -200,7 +218,6 @@ void drawMap() {
         Cube(x*gridSize-2000, height-gridSize, y*gridSize-2000, face, gridSize);
         Cube(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, brick, gridSize);
         Cube(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, crack, gridSize);
-
         //pushMatrix();
         //fill(c);
         //stroke(100); // the height below is to make sure that it doesnt draw cewnter at 0,0
@@ -208,6 +225,38 @@ void drawMap() {
         //box(gridSize, height, gridSize);
         //popMatrix();
       }
+    }
+  }
+}
+
+void drawMap2() {
+  for (int x = 0; x < map2.width; x++) { // the width and height of the map picture, not of the envirment
+    for (int y = 0; y < map2.height; y++) {
+      color c = map2.get(x, y);
+      if (c == #7092BE) {
+        Cube(x*gridSize-2000, height-gridSize, y*gridSize-2000, face, gridSize);
+        Cube(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, brick, gridSize);
+        Cube(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, crack, gridSize);
+      } else if (c == #B5E61D) {
+        Cube(x*gridSize-2000, height-gridSize, y*gridSize-2000, face, gridSize);
+      } else if (c == #77D621 ) {
+        Cube(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, brick, gridSize);
+      } else if (c == #22B14C) {
+        Cube(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, crack, gridSize);
+      }
+
+// collisions need to be fixed and stchuff
+      /*
+      colors to remeber height:
+       
+       lowest =  #8FED14
+       medium = #77D621;
+       highest = #22B14C;
+       boder color = #7092BE;
+       
+       water: #90FFF5
+       
+       */
     }
   }
 }
