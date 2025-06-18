@@ -26,7 +26,9 @@ class block {
     }
     world.textureMode(NORMAL);
     world.beginShape(QUADS);
-    world.translate(x, blockY, z);
+    
+    
+    world.translate(x, -7000, z);
     world.texture(bambooLeaf);
     world.scale(200);
     world.vertex(-a, 16, -a, 0, 0);

@@ -108,7 +108,7 @@ void setup() {
 
 void draw() {
   world.beginDraw();
-  world.background(255);
+  world.background(200);
 
   world.pointLight(255, 255, 255, eyeX, eyeY, eyeZ);
   world.camera(eyeX, eyeY, eyeZ, focusX, focusY, focusZ, tiltX, tiltY, tiltZ);
