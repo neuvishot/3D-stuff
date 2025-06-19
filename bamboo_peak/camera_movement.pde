@@ -1,19 +1,20 @@
 void controlCamera() {
-  if (wkey && canMoveForward()) {
-    eyeX = eyeX + cos(leftRightHeadAngle)*10;
-    eyeZ = eyeZ + sin(leftRightHeadAngle)*10;
+ int a = 20;
+  if (wkey && canMoveForward() && !drawing2 || wkey && drawing2) {
+    eyeX = eyeX + cos(leftRightHeadAngle)*a;
+    eyeZ = eyeZ + sin(leftRightHeadAngle)*a;
   }
-  if (skey && canMoveBack()) {
-    eyeX = eyeX - cos(leftRightHeadAngle)*10;
-    eyeZ = eyeZ - sin(leftRightHeadAngle)*10;
+  if (skey && canMoveBack() && !drawing2 || skey && drawing2) {
+    eyeX = eyeX - cos(leftRightHeadAngle)*a;
+    eyeZ = eyeZ - sin(leftRightHeadAngle)*a;
   }
-  if (akey && canMoveLeft()) {
-    eyeX = eyeX - cos(leftRightHeadAngle + PI/2)*10;
-    eyeZ = eyeZ - sin(leftRightHeadAngle + PI/2)*10;
+  if (akey && canMoveLeft() && !drawing2 || akey && drawing2) {
+    eyeX = eyeX - cos(leftRightHeadAngle + PI/2)*a;
+    eyeZ = eyeZ - sin(leftRightHeadAngle + PI/2)*a;
   }
-  if (dkey && canMoveRight()) {
-    eyeX = eyeX - cos(leftRightHeadAngle - PI/2)*10;
-    eyeZ = eyeZ - sin(leftRightHeadAngle - PI/2)*10;
+  if (dkey && canMoveRight() && !drawing2 || dkey && drawing2) {
+    eyeX = eyeX - cos(leftRightHeadAngle - PI/2)*a;
+    eyeZ = eyeZ - sin(leftRightHeadAngle - PI/2)*a;
   }
   if (skipFrame == false) {
     leftRightHeadAngle = leftRightHeadAngle + (mouseX - pmouseX)*0.01;
@@ -27,8 +28,8 @@ void controlCamera() {
   if (topBottomAngle > PI/2.5) topBottomAngle = PI/2.5;
   if (topBottomAngle < -PI/2.5) topBottomAngle = -PI/2.5;
 
-  if (shiftkey || downkey) eyeY = eyeY + 3;
-  if (upkey || qkey) eyeY = eyeY - 3;
+  if (shiftkey || downkey) eyeY = eyeY + 100;
+  if (upkey || qkey) eyeY = eyeY - 100;
 
   // 360 rotation smoothererer
   if (mouseX < 2) {
@@ -81,6 +82,8 @@ boolean canMoveBack() {
 }
 
 boolean canMoveForward() {
+  //float[] fwd = new float[9];
+  
   float fwdx, fwdz;
   float leftx, lefty, leftz;
   float rightx, righty, rightz;
@@ -89,7 +92,7 @@ boolean canMoveForward() {
   int rmapx, rmapy;
   boolean left, right, fwd;
 
-  int m = 200;
+  int m = 300;
   fwdx = eyeX + cos(leftRightHeadAngle)*m; // SUBTRACT FROM THE ANGLES TO MAKE THE LEFT AND RIGHT STCHUFF
   //fwdy = eyeY + tan(topBottomAngle)*300;
   fwdz = eyeZ + sin(leftRightHeadAngle)*m;

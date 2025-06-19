@@ -1,5 +1,6 @@
 // to ask:
 // how to do transparency in processing
+// create a water gif block ( 3 frames at most guys
 
 
 
@@ -38,6 +39,7 @@ PGraphics HUD; // heads up display
 block bam;
 boolean drawing2;
 PShape sakura, bambour;
+int timer;
 
 void setup() {
   // create canvases
@@ -72,19 +74,19 @@ void setup() {
   bam = new block(0, 950, 0, 5);
 
 
-  // player view
-  eyeX = -100;
-  eyeY = height-150;
-  eyeZ = -2000;
+  //// player view
+  //eyeX = -100;
+  //eyeY = height-150;
+  //eyeZ = -2000;
 
-  //// up view
-  //eyeX = 0;
-  //eyeY = -height-150;
-  //eyeZ = 0;
+  // up view
+  eyeX = 0;
+  eyeY = -height+150;
+  eyeZ = 0;
 
-  focusX = width/2;
-  focusY =  height/2;
-  focusZ = 10;
+  focusX = -100;
+  focusY =  900;
+  focusZ = -1700;
   tiltX = 0;
   tiltY = 1;
   tiltZ = 0;
@@ -107,6 +109,7 @@ void setup() {
 }
 
 void draw() {
+  //println(eyeX, eyeY, eyeZ);
   world.beginDraw();
   world.background(200);
 
@@ -116,7 +119,6 @@ void draw() {
   controlCamera();
 
 
-  // loop to make the object work
   int i = 0;
   while (i < objects.size()) {
     GameObject obj = objects.get(i);
@@ -129,29 +131,42 @@ void draw() {
     }
   }
 
-  if (eyeY > height+ 100) drawing2 = true;
+  if (eyeY > height+ 100) {
+    drawing2 = true;
+    eyeY = -200;
+  }
+
 
   if (!drawing2) {
-    texturedCube(0, 800, 0, bambooLeaf, bambooLeaf, bambooLeaf, 200);
-    bam.show();
+
     bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
     texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
     drawFloor1(-2000, 2000, height, 100);
 
     drawMap();
     world.pushMatrix();
-    world.translate(0, height/2, 0);
+    world.translate(500, height/2, 0);
     world.rotateX(radians(180));
     world.shape(sakura);
-    world.translate(0, height/2, 200);
+    world.translate(0, height/2, 200); // this ones tranparent?
     world.shape(bambour);
     world.popMatrix();
+
+    texturedCube(0, 800, 0, bambooLeaf, bambooLeaf, bambooLeaf, 200);
+
+    bam.show();
   } else {
     background(200);
     drawFloor2(-2000, 2000, height, 100);
     bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
     drawMap2();
+    timer ++;
+
+
+    objects.add(new rain());
+    // loop to make the object work
   }
+
 
 
   // -------------------------------------------------------
@@ -218,6 +233,7 @@ void drawMap() {
         Cube(x*gridSize-2000, height-gridSize, y*gridSize-2000, face, gridSize);
         Cube(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, brick, gridSize);
         Cube(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, crack, gridSize);
+        Cube(x*gridSize-2000, height-gridSize*4, y*gridSize-2000, brick, gridSize);
         //pushMatrix();
         //fill(c);
         //stroke(100); // the height below is to make sure that it doesnt draw cewnter at 0,0
@@ -245,7 +261,7 @@ void drawMap2() {
         Cube(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, crack, gridSize);
       }
 
-// collisions need to be fixed and stchuff
+      // collisions need to be fixed and stchuff
       /*
       colors to remeber height:
        
