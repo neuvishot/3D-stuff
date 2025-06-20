@@ -1,5 +1,5 @@
 void controlCamera() {
- int a = 20;
+  int a = 20;
   if (wkey && canMoveForward() && !drawing2 || wkey && drawing2) {
     eyeX = eyeX + cos(leftRightHeadAngle)*a;
     eyeZ = eyeZ + sin(leftRightHeadAngle)*a;
@@ -28,8 +28,8 @@ void controlCamera() {
   if (topBottomAngle > PI/2.5) topBottomAngle = PI/2.5;
   if (topBottomAngle < -PI/2.5) topBottomAngle = -PI/2.5;
 
-  if (shiftkey || downkey) eyeY = eyeY + 100;
-  if (upkey || qkey) eyeY = eyeY - 100;
+  if (shiftkey || downkey) eyeY = eyeY + 50;
+  if (upkey || qkey) eyeY = eyeY - 50;
 
   // 360 rotation smoothererer
   if (mouseX < 2) {
@@ -83,7 +83,7 @@ boolean canMoveBack() {
 
 boolean canMoveForward() {
   //float[] fwd = new float[9];
-  
+
   float fwdx, fwdz;
   float leftx, lefty, leftz;
   float rightx, righty, rightz;
@@ -125,6 +125,8 @@ boolean canMoveForward() {
   rmapx = int(rightx+2000) / gridSize;
   rmapy = int(rightz+2000) / gridSize;
 
+
+
   if (map.get(lmapx, lmapy) == white) {
     left = true;
   } else {
@@ -137,10 +139,16 @@ boolean canMoveForward() {
     right = false;
   }
 
-  if (map.get(fmapx, fmapy) == white) {
+  if (map.get(fmapx, fmapy) == white ) {
     fwd = true;
-  } else {
+  } else  if (fwdz <= bam.zsizeStop && fwdz >= bam.zsizeStart && fwdx <= bam.xsizeStop && fwdx >= bam.xsizeStart){
     fwd = false;
+  } else {
+   fwd = false; 
+  }
+
+if (fwdz <= bam.zsizeStop && fwdz >= bam.zsizeStart && fwdx <= bam.xsizeStop && fwdx >= bam.xsizeStart){
+    println("HHHHHHHHHHHHHHHH");
   }
 
   if (fwd && left && right) {
@@ -148,4 +156,11 @@ boolean canMoveForward() {
   } else {
     return false;
   }
+  
+  //  if (fwdz <= bam.zsizeStop && fwdz >= bam.zsizeStart && fwdz <= bam.xsizeStop && fwdz >= bam.xsizeStart ) {
+  //  fwd = false;
+  //} else {
+  //  fwd = true;
+  //}
+  
 }

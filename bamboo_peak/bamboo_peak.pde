@@ -155,6 +155,7 @@ void draw() {
     texturedCube(0, 800, 0, bambooLeaf, bambooLeaf, bambooLeaf, 200);
 
     bam.show();
+    bam.act();
   } else {
     background(200);
     drawFloor2(-2000, 2000, height, 100);

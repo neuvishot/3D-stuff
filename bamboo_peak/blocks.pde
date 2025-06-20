@@ -1,10 +1,11 @@
 class block {
 
   float x, y, z;
-  float xsize, ysize, zsize;
+  float xsizeStart, xsizeStop, ysize, zsizeStart, zsizeStop;
   int tall;
   float a = 1.5;
-  float blockY;
+  float blockYb, blockyl;
+  float bamrot;
 
   block() { //dirtblock floor
   }
@@ -14,7 +15,8 @@ class block {
     y = yy;
     z = zz;
     tall = amount;
-    ysize = amount * 160;
+    ysize = amount * -160;
+    bamrot = radians(random(360));
     //xsize = ysize = 3/2 * 10;
   }
 
@@ -22,10 +24,13 @@ class block {
   void show() {
     world.pushMatrix();
     for (int i = 0; i < tall; i++) {
-      blockY = y - i * 160;
-      bamboo(x, blockY, z, bambooTop, bambooTop, bambooSide, 10);
+      blockYb = y - i * 160;
+      bamboo(x, blockYb, z, bambooTop, bambooTop, bambooSide, 10);
     }
-
+    for (int i = 0; i < tall; i++) { // leaves
+      blockyl = y - i * 160;
+      bamboos(x, blockyl, z, radians(random(360)));
+    }
 
     //world.textureMode(NORMAL);
     //world.pushMatrix();
@@ -35,22 +40,28 @@ class block {
     //world.popMatrix();
 
     texturedCube(0, -800, 0, bambooLeaf, bambooLeaf, bambooLeaf, 200);
+    //bamboos(x, blockY, z);
 
-    world.translate(x, -1*(y+ysize*tall), z);
-    world.texture(bambooLeaf);
-    world.scale(200);
-    world.beginShape(QUADS);
-    world.vertex(-a, 16, -a, 0, 0);
-    world.vertex(a, 16, -a, 1, 0);
-    world.vertex(a, 16, a, 1, 1);
-    world.vertex(-a, 16, a, 0, 1);
-    world.endShape();
+    //world.translate(x, -1*(y+ysize*tall), z);
+    //world.texture(bambooLeaf);
+    //world.scale(200);
+    //world.beginShape(QUADS);
+    //world.vertex(-a, 16, -a, 0, 0);
+    //world.vertex(a, 16, -a, 1, 0);
+    //world.vertex(a, 16, a, 1, 1);
+    //world.vertex(-a, 16, a, 0, 1);
+    //world.endShape();
 
     world.popMatrix();
   }
 
-  void bamboos(float x, float y, float z) {
+  void bamboos(float x, float y, float z, float r) {
+    world.pushMatrix();
+    world.textureMode(NORMAL);
     world.translate(x, y, z);
+    world.scale(300);
+    //world.rotateY(bamrot);
+    world.rotateY(r);
     world.beginShape(QUADS);
     world.texture(bambooLeaf);
     world.vertex(0, 0, 0, 0, 0);
@@ -58,20 +69,26 @@ class block {
     world.vertex(1, 0, 1, 1, 1);
     world.vertex(0, 0, 1, 0, 1);
     world.endShape();
+    world.popMatrix();
   }
 
   void act() {
     ysize = y * tall;
+    xsizeStart = x - (1.5*10);
+    xsizeStop = x + (1.5*10);
+    
+    zsizeStart = z - (1.5*10);
+    zsizeStop = z + (1.5*10);
   }
 
 
 
-  float getWidth() {
+  //float getWidth() {
 
-    return ysize;
-  }
+  //  return ysize;
+  //}
 
-  float getDepth() {
-    return zsize;
-  }
+  //float getDepth() {
+  //  return zsize;
+  //}
 }
