@@ -141,15 +141,16 @@ boolean canMoveForward() {
 
   if (map.get(fmapx, fmapy) == white ) {
     fwd = true;
-  } else  if (fwdz <= bam.zsizeStop && fwdz >= bam.zsizeStart && fwdx <= bam.xsizeStop && fwdx >= bam.xsizeStart){
-    fwd = false;
-  } else {
+  } else   {
    fwd = false; 
   }
+//  if (fwdz <= bam.zsizeStop && fwdz >= bam.zsizeStart && fwdx <= bam.xsizeStop && fwdx >= bam.xsizeStart){
+//    fwd = false;
+//  } else
 
-if (fwdz <= bam.zsizeStop && fwdz >= bam.zsizeStart && fwdx <= bam.xsizeStop && fwdx >= bam.xsizeStart){
-    println("HHHHHHHHHHHHHHHH");
-  }
+//if (fwdz <= bam.zsizeStop && fwdz >= bam.zsizeStart && fwdx <= bam.xsizeStop && fwdx >= bam.xsizeStart){
+//    println("HHHHHHHHHHHHHHHH");
+//  }
 
   if (fwd && left && right) {
     return true;

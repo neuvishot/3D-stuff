@@ -5,7 +5,7 @@ class block {
   int tall;
   float a = 1.5;
   float blockYb, blockyl;
-  float bamrot;
+  float [] bamrot;
 
   block() { //dirtblock floor
   }
@@ -16,7 +16,11 @@ class block {
     z = zz;
     tall = amount;
     ysize = amount * -160;
-    bamrot = radians(random(360));
+    bamrot = new float[tall];
+    for (int i = 0; i < tall; i++) {
+      bamrot[i] = radians(random(360)); // Unique rotation per leaf
+    }
+
     //xsize = ysize = 3/2 * 10;
   }
 
@@ -27,9 +31,18 @@ class block {
       blockYb = y - i * 160;
       bamboo(x, blockYb, z, bambooTop, bambooTop, bambooSide, 10);
     }
-    for (int i = 0; i < tall; i++) { // leaves
+    for (int i = tall-1; i >= 0; i--) { // leaves
       blockyl = y - i * 160;
-      bamboos(x, blockyl, z, radians(random(360)));
+      if (i >= 3) {
+        bamboos(x, blockyl, z, bamrot[i]);
+        bamboos(x, blockyl, z, bamrot[i] + HALF_PI);
+      }
+      if ( i == tall-1){
+        bamboos(x, blockyl, z, bamrot[i]);
+        bamboos(x, blockyl, z, bamrot[i] + 2*QUARTER_PI);
+        bamboos(x, blockyl, z, bamrot[i] + 4*QUARTER_PI);
+        bamboos(x, blockyl, z, bamrot[i] + 6*QUARTER_PI);
+      }
     }
 
     //world.textureMode(NORMAL);
@@ -76,7 +89,7 @@ class block {
     ysize = y * tall;
     xsizeStart = x - (1.5*10);
     xsizeStop = x + (1.5*10);
-    
+
     zsizeStart = z - (1.5*10);
     zsizeStop = z + (1.5*10);
   }

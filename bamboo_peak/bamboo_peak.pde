@@ -32,14 +32,16 @@ PImage brick, crack, face, ground;
 
 // game objects
 ArrayList<GameObject> objects;
+ArrayList<block> blocks;
 
 // cavnasses
 PGraphics world;
 PGraphics HUD; // heads up display
-block bam;
+block bam; // was testing it out ---------------------------
 boolean drawing2;
 PShape sakura, bambour;
 int timer;
+boolean bamDrawn;
 
 void setup() {
   // create canvases
@@ -47,8 +49,11 @@ void setup() {
   world = createGraphics(width, height, P3D);
   world = createGraphics(width, height, P3D);
 
+  bamDrawn = false;
+
   fullScreen(P2D);
   objects = new ArrayList<GameObject>();
+  blocks = new ArrayList<block>();
   //size(800, 600, P3D);
   //size(displayWidth, displayHeight, P3D);
   world.textureMode(NORMAL);
@@ -71,8 +76,6 @@ void setup() {
   bambooTop = loadImage("bambootop.png");
   bambooSide = loadImage("bamboo.png");
   bambooLeaf = loadImage("bambooLeaf.png");
-  bam = new block(0, 950, 0, 5);
-
 
   //// player view
   //eyeX = -100;
@@ -106,6 +109,31 @@ void setup() {
 
   //world.hint(ENABLE_DEPTH_SORT);
   //world.hint(ENABLE_DEPTH_SORT);
+
+  // map
+  for (int x = 0; x < map.width; x++) {
+    for (int y = 0; y < map.height; y++) {
+      color c = map.get(x, y);
+      if (c != white && c != #22B14C) {
+        Cube(x*gridSize-2000, height-gridSize, y*gridSize-2000, face, gridSize);
+        Cube(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, brick, gridSize);
+        Cube(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, crack, gridSize);
+        Cube(x*gridSize-2000, height-gridSize*4, y*gridSize-2000, brick, gridSize);
+      }
+    }
+  }
+
+  // bambooo
+  for (int x = 0; x < map.width; x++) { // the width and height of the map picture, not of the envirment
+    for (int y = 0; y < map.height; y++) {
+      color c = map.get(x, y);
+      if (c == #22B14C) {
+        //blocks.add(new block(0, 950, 0, 7));
+        blocks.add(new block(x*gridSize-2000, height-gridSize, y*gridSize-2000, int(random(10))));
+        bamDrawn = true;
+      }
+    }
+  }
 }
 
 void draw() {
@@ -131,6 +159,8 @@ void draw() {
     }
   }
 
+
+
   if (eyeY > height+ 100) {
     drawing2 = true;
     eyeY = -200;
@@ -138,24 +168,31 @@ void draw() {
 
 
   if (!drawing2) {
+    int a = 0;
+    while (a < blocks.size()) {
+      bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
+      texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
+      drawFloor1(-2000, 2000, height, 100);
 
-    bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
-    texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
-    drawFloor1(-2000, 2000, height, 100);
+      drawMap();
+      world.pushMatrix();
+      world.translate(500, height/2, 0);
+      world.rotateX(radians(180));
+      world.shape(sakura);
+      world.translate(0, height/2, 200); // this ones tranparent?
+      world.shape(bambour);
+      world.popMatrix();
 
-    drawMap();
-    world.pushMatrix();
-    world.translate(500, height/2, 0);
-    world.rotateX(radians(180));
-    world.shape(sakura);
-    world.translate(0, height/2, 200); // this ones tranparent?
-    world.shape(bambour);
-    world.popMatrix();
-
-    texturedCube(0, 800, 0, bambooLeaf, bambooLeaf, bambooLeaf, 200);
-
-    bam.show();
-    bam.act();
+      texturedCube(0, 800, 0, bambooLeaf, bambooLeaf, bambooLeaf, 200);
+      block bams = blocks.get(a);
+      bams.act();
+      bams.show();
+      //if (bams.lives == 0) {
+      //  objects.remove(a);
+      //} else {
+      a++;
+      //}
+    }
   } else {
     background(200);
     drawFloor2(-2000, 2000, height, 100);
@@ -196,6 +233,23 @@ void draw() {
  
  with this, loop thorough this when checking collisions
  */
+
+void drawBamboo() {
+  if (!bamDrawn) {
+    for (int x = 0; x < map.width; x++) { // the width and height of the map picture, not of the envirment
+      for (int y = 0; y < map.height; y++) {
+        color c = map.get(x, y);
+        if (c == #22B14C) {
+          //blocks.add(new block(0, 950, 0, 7));
+          blocks.add(new block(x*gridSize-2000, height-gridSize, y*gridSize-2000, int(random(10))));
+          bamDrawn = true;
+        }
+      }
+    }
+  }
+}
+
+
 void drawFloor2(int start, int end, int level, int gap) {
   world.stroke(255);
   world.strokeWeight(1);
@@ -227,24 +281,19 @@ void drawFloor1(int start, int end, int level, int gap) {
 }
 
 void drawMap() {
-  for (int x = 0; x < map.width; x++) { // the width and height of the map picture, not of the envirment
+  for (int x = 0; x < map.width; x++) {
     for (int y = 0; y < map.height; y++) {
       color c = map.get(x, y);
-      if (c != white) {
+      if (c != white && c != #22B14C) {
         Cube(x*gridSize-2000, height-gridSize, y*gridSize-2000, face, gridSize);
         Cube(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, brick, gridSize);
         Cube(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, crack, gridSize);
         Cube(x*gridSize-2000, height-gridSize*4, y*gridSize-2000, brick, gridSize);
-        //pushMatrix();
-        //fill(c);
-        //stroke(100); // the height below is to make sure that it doesnt draw cewnter at 0,0
-        //translate(x*gridSize - 2000, height/2, y*gridSize-2000); // -20000 to make sure that things dont start getting built at 0,0
-        //box(gridSize, height, gridSize);
-        //popMatrix();
       }
     }
   }
 }
+
 
 void drawMap2() {
   for (int x = 0; x < map2.width; x++) { // the width and height of the map picture, not of the envirment
