@@ -28,7 +28,7 @@ PImage map, map2;
 PImage diamond;
 PImage dirtTop, dirtSide, dirtBottom;
 PImage bambooTop, bambooSide, bambooLeaf;
-PImage brick, crack, face, ground;
+PImage brick, crack, face, ground, bush, fence;
 
 // game objects
 ArrayList<GameObject> objects;
@@ -72,6 +72,8 @@ void setup() {
   crack = loadImage("cracked.png");
   face = loadImage("face.png");
   ground = loadImage("sground.png");
+  bush = loadImage("bush.png");
+  fence = loadImage("fence.png");
 
   bambooTop = loadImage("bambootop.png");
   bambooSide = loadImage("bamboo.png");
@@ -114,11 +116,22 @@ void setup() {
   for (int x = 0; x < map.width; x++) {
     for (int y = 0; y < map.height; y++) {
       color c = map.get(x, y);
-      if (c != white && c != #22B14C) {
+      if (c == #B5E61D ) {
         Cube(x*gridSize-2000, height-gridSize, y*gridSize-2000, face, gridSize);
         Cube(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, brick, gridSize);
         Cube(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, crack, gridSize);
         Cube(x*gridSize-2000, height-gridSize*4, y*gridSize-2000, brick, gridSize);
+      }
+      if (c == #ED1C24) {
+        Cube(x*gridSize-2000, height-gridSize, y*gridSize-2000, bush, gridSize);
+      }
+      if ( c == #FFF200) {
+        bamboo(x*gridSize-2000, height-gridSize*1, y*gridSize-2000, bambooTop, bambooTop, bambooSide, 10);
+        bamboo(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, bambooTop, bambooTop, bambooSide, 10);
+        bamboo(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, bambooTop, bambooTop, bambooSide, 10);
+        bamboo(x*gridSize-2000, height-gridSize*4, y*gridSize-2000, bambooTop, bambooTop, bambooSide, 10);
+        bamboo(x*gridSize-2000, height-gridSize*5, y*gridSize-2000, bambooTop, bambooTop, bambooSide, 10);
+        bamboo(x*gridSize-2000, height-gridSize*6, y*gridSize-2000, bambooTop, bambooTop, bambooSide, 10);
       }
     }
   }
@@ -171,17 +184,19 @@ void draw() {
     int a = 0;
     while (a < blocks.size()) {
       bamboo(500, 300, 0, bambooTop, bambooTop, bambooSide, 10);
-      texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
+      //texturedCube(0, 600, 0, dirtTop, dirtBottom, dirtSide, 200);
       drawFloor1(-2000, 2000, height, 100);
 
       drawMap();
-      world.pushMatrix();
-      world.translate(500, height/2, 0);
-      world.rotateX(radians(180));
-      world.shape(sakura);
-      world.translate(0, height/2, 200); // this ones tranparent?
-      world.shape(bambour);
-      world.popMatrix();
+      //world.pushMatrix();
+      //world.translate(500, height/2, 0);
+      //world.rotateX(radians(180));
+      //world.shape(sakura);
+      //world.translate(0, height/2, 200); // this ones tranparent?
+      //world.shape(bambour);
+      //world.popMatrix();
+
+      model(500, height, -100, 3, sakura, radians(180), radians(90), 0);
 
       texturedCube(0, 800, 0, bambooLeaf, bambooLeaf, bambooLeaf, 200);
       block bams = blocks.get(a);
@@ -284,11 +299,23 @@ void drawMap() {
   for (int x = 0; x < map.width; x++) {
     for (int y = 0; y < map.height; y++) {
       color c = map.get(x, y);
-      if (c != white && c != #22B14C) {
+      if (c == #B5E61D ) {
         Cube(x*gridSize-2000, height-gridSize, y*gridSize-2000, face, gridSize);
         Cube(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, brick, gridSize);
         Cube(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, crack, gridSize);
         Cube(x*gridSize-2000, height-gridSize*4, y*gridSize-2000, brick, gridSize);
+      }
+      if (c == #ED1C24) {
+        Cube(x*gridSize-2000, height-gridSize, y*gridSize-2000, bush, gridSize);
+      }
+      if ( c == #FFF200) {
+        int o = 9;
+        bamboo(x*gridSize-2000, height-gridSize*1, y*gridSize-2000, bambooTop, bambooTop, bambooSide, o);
+        bamboo(x*gridSize-2000, height-gridSize*2, y*gridSize-2000, bambooTop, bambooTop, bambooSide, o);
+        bamboo(x*gridSize-2000, height-gridSize*3, y*gridSize-2000, bambooTop, bambooTop, bambooSide, o);
+        bamboo(x*gridSize-2000, height-gridSize*4, y*gridSize-2000, bambooTop, bambooTop, bambooSide, o);
+        bamboo(x*gridSize-2000, height-gridSize*5, y*gridSize-2000, bambooTop, bambooTop, bambooSide, o);
+        bamboo(x*gridSize-2000, height-gridSize*6, y*gridSize-2000, bambooTop, bambooTop, bambooSide, o);
       }
     }
   }
